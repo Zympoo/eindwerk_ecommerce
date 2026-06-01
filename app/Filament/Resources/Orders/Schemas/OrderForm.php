@@ -23,7 +23,8 @@ class OrderForm
                         TextInput::make('total_price')
                             ->label('Total Price')
                             ->disabled()
-                            ->prefix('€'),
+                            ->prefix('€')
+                            ->formatStateUsing(fn ($state) => $state !== null ? number_format($state / 100, 2, '.', '') : '0.00'),
                         
                         Select::make('status')
                             ->label('Status')
@@ -62,7 +63,8 @@ class OrderForm
                                     ->label('Price')
                                     ->numeric()
                                     ->prefix('€')
-                                    ->disabled(),
+                                    ->disabled()
+                                    ->formatStateUsing(fn ($state) => $state !== null ? number_format($state / 100, 2, '.', '') : '0.00'),
                             ])
                             ->columns(2)
                             ->extraAttributes([

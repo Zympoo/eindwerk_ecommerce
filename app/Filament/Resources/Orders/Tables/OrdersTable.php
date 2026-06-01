@@ -19,7 +19,7 @@ class OrdersTable
                 TextColumn::make('order_number')
                     ->searchable(),
                 TextColumn::make('total_price')
-                    ->money()
+                    ->money('EUR', divideBy: 100)
                     ->sortable(),
                 TextColumn::make('status')
                     ->searchable(),
