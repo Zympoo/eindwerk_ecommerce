@@ -28,7 +28,8 @@ class ProductsTable
                 TextColumn::make('price')
                     ->money('EUR', divideBy: 100)
                     ->sortable(),
-                ImageColumn::make('image_path'),
+                ImageColumn::make('image_path')
+                    ->disk('public'),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('deleted_at')

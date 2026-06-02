@@ -3,16 +3,19 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Gasten-routes (Alleen toegankelijk als je NIET bent ingelogd)
+Route::redirect('/', '/products');
+
 Route::middleware('guest')->group(function () {
     Route::livewire('/login', 'login')->name('login');
     Route::livewire('/register', 'register')->name('register');
 });
 
-// Uitlog-route
+Route::livewire('/products', 'products.index')->name('home');
+Route::livewire('/products/{product:slug}', 'products.show');
+
 Route::post('/logout', function () {
     Auth::logout();
     session()->invalidate();
     session()->regenerateToken();
-    return redirect('/');
+    return redirect('/products');
 })->name('logout');

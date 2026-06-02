@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webshop</title>
+    <title>Tendens</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -14,28 +14,28 @@
     <header class="bg-gray-900 text-white pt-6 pb-6 px-4 sm:px-6 lg:px-8 border-b border-gray-700">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="/" class="text-mongo-green font-serif text-2xl font-bold tracking-tight">
-                Webshop<span class="text-white">.</span>
+                Tendens
             </a>
 
             <div class="flex items-center gap-8">
                 <nav class="hidden md:flex gap-8 font-medium text-[16px] items-center">
 
-                    <a href="/products" class="text-white hover:text-green-400 transition-colors">Producten</a>
-                    <a href="/cart" class="text-white hover:text-green-400 transition-colors">Winkelmandje</a>
+                    <a href="/products" class="text-white hover:text-green-400 transition-colors">Products</a>
+                    <a href="/cart" class="text-white hover:text-green-400 transition-colors">Cart</a>
 
                     @auth
-                        @if(auth()->user()->role === \App\Enums\UserRole::ADMIN)
-                            <a href="/dashboard" class="hover:text-action-blue transition-colors">
+                        @if(auth()->user()->isAdmin())
+                            <a href="/admin" class="text-white hover:text-green-400 transition-colors">
                                 Dashboard
                             </a>
                         @endif
 
-                        <a href="/orders" class="hover:text-action-blue transition-colors">
-                            Mijn orders
+                        <a href="/orders" class="text-white hover:text-green-400 transition-colors">
+                            My orders
                         </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="hover:text-action-blue hover:cursor-pointer transition-colors">Uitloggen</button>
+                                <button type="submit" class="text-white hover:text-green-400 hover:cursor-pointer transition-colors">Uitloggen</button>
                             </form>
                     @else
                         <a href="/login" class="text-white hover:text-green-400 transition-colors">Inloggen</a>

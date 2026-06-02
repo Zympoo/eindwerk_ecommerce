@@ -53,6 +53,7 @@ class ProductForm
                         FileUpload::make('image_path')
                             ->image()
                             ->directory('products')
+                            ->disk('public')
                             ->columnSpanFull(),
                             
                         Textarea::make('description')
