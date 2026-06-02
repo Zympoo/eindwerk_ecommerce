@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Override;
 
 #[Fillable(['role_id','name', 'email', 'password'])]
@@ -37,7 +38,11 @@ class User extends Authenticatable implements FilamentUser
     #[Override]
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin();
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        throw new HttpResponseException(redirect('/products'));
     }
 
     public function role(): BelongsTo

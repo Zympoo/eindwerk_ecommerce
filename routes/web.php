@@ -10,8 +10,11 @@ Route::middleware('guest')->group(function () {
     Route::livewire('/register', 'register')->name('register');
 });
 
-Route::livewire('/products', 'products.index')->name('home');
-Route::livewire('/products/{product:slug}', 'products.show');
+Route::prefix('products')
+    ->group(function() {
+        Route::livewire('/', 'products.index')->name('home');
+        Route::livewire('/{product:slug}', 'products.show');
+    });
 
 Route::post('/logout', function () {
     Auth::logout();
