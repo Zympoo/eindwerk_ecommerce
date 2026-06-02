@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -20,6 +21,15 @@ class Product extends Model
         'image_path',
         'is_active',
     ];
+
+    public static function booted(): void
+    {
+        static::forceDeleting(function(self $product) {
+            if ($product->image_path && Storage::exists($product->image_path)) {
+                Storage::delete($product->image_path);
+            }
+        });
+    }
 
     public function category(): BelongsTo
     {
