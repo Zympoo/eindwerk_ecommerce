@@ -63,7 +63,7 @@ class extends Component {
                     <label for="search" class="block text-sm font-semibold text-gray-900 mb-2">Search</label>
                     <div class="relative">
                         <input wire:model.live.debounce.300ms="search" id="search" type="text" placeholder="Product name..." 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+                            class="p-1 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
                     </div>
                 </div>
 

@@ -106,7 +106,7 @@ class extends Component {
                     <div class="mb-6">
                         <label for="variant" class="block text-sm font-semibold text-gray-900 mb-2">Choose an option</label>
                         <select wire:model.live="selectedVariantId" id="variant" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+                            class="p-1 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
                             @foreach($product->variants as $variant)
                                 <option value="{{ $variant->id }}">
                                     {{ $variant->name }} 
@@ -124,7 +124,7 @@ class extends Component {
                     <div class="w-24">
                         <label for="quantity" class="block text-sm font-semibold text-gray-900 mb-2">Quantity</label>
                         <input wire:model="quantity" id="quantity" type="number" min="1" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+                            class="p-1 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
                     </div>
 
                     <div class="flex-1 pt-7">
