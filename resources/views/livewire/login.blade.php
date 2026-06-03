@@ -5,7 +5,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts.app')]
+new #[Layout('components.layouts.app')]
 class extends Component {
     
     public string $email = '';

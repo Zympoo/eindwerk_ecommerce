@@ -22,6 +22,7 @@
 
                     <a href="/products" class="text-white hover:text-green-400 transition-colors">Products</a>
                     <a href="/cart" class="text-white hover:text-green-400 transition-colors">Cart</a>
+                    <a href="/orders" class="text-white hover:text-green-400 transition-colors">My orders</a>
 
                     @auth
                         @if(auth()->user()->isAdmin())
@@ -29,10 +30,6 @@
                                 Dashboard
                             </a>
                         @endif
-
-                        <a href="/orders" class="text-white hover:text-green-400 transition-colors">
-                            My orders
-                        </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="text-white hover:text-green-400 hover:cursor-pointer transition-colors">Uitloggen</button>

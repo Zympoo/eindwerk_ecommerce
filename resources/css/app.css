@@ -1,9 +1,99 @@
 @import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
 
+@source '../views';
+@source '../../app';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+@source '../../vendor/livewire/flux-pro/**/*.blade.php';
+@source '../../vendor/livewire/flux/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Standaard lettertype voor de Flux UI interface */
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* ========================================== */
+    /* MONGODB DESIGN SYSTEM VARIABELEN           */
+    /* ========================================== */
+    --color-forest-black: #001e2b;
+    --color-mongo-green: #00ed64;
+    --color-mongo-dark-green: #00684a;
+    --color-action-blue: #006cfa;
+    --color-hover-blue: #3860be;
+    --color-deep-teal: #1c2d38;
+    --color-teal-gray: #3d4f58;
+    --color-cool-gray: #5c6c75;
+    --color-silver-teal: #b8c4c2;
+    --color-light-input: #e8edeb;
+
+    --font-serif: Georgia, serif;
+    --font-mono: "Source Code Pro", monospace;
+    /* ========================================== */
+
+    /* Originele kleuren van de Starter Kit fallback */
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+/* ========================================== */
+/* ONZE COMPONENT KLASSEN                     */
+/* ========================================== */
+@layer components {
+    .mongo-underline {
+        @apply border-b-2 border-r-2 border-mongo-green pb-1 pr-1;
+    }
+
+    .tech-label {
+        @apply font-mono text-sm uppercase tracking-[2px] font-medium;
+    }
+}
+
+/* ========================================== */
+/* BASISREGELS VOOR FLUX UI                   */
+/* ========================================== */
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
