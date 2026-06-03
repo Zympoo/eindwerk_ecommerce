@@ -8,7 +8,7 @@ use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layout.app')]
+new #[Layout('layouts.app')]
 class extends Component {
     
     public string $name = '';

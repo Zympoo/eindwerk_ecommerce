@@ -5,7 +5,7 @@ use App\Models\ProductVariant;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layout.app')]
+new #[Layout('layouts.app')]
 class extends Component {
     public Product $product;
     public ?int $selectedVariantId = null;
