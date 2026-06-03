@@ -54,28 +54,28 @@ class extends Component {
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Naam</label>
                     <input wire:model="name" id="name" type="text" required 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                     @error('name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email adres</label>
                     <input wire:model="email" id="email" type="email" required 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                     @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input wire:model="password" id="password" type="password" required 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                     @error('password') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Wachtwoord bevestigen</label>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm password</label>
                     <input wire:model="password_confirmation" id="password_confirmation" type="password" required 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                 </div>
 
                 <div>
