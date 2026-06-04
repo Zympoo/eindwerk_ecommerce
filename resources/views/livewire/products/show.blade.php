@@ -21,12 +21,10 @@ class extends Component {
             abort(404);
         }
 
-        // Load active variants
         $this->product = $product->load(['variants' => function($query) {
             $query->where('is_active', true);
         }]);
 
-        // Default variant selecteren
         if ($this->product->variants->isNotEmpty()) {
             $this->selectedVariantId = $this->product->variants->first()->id;
         }
@@ -48,15 +46,17 @@ class extends Component {
         return $price;
     }
 
-    // 🔥 De knop-actie: Nu gekoppeld aan de Action
     public function addToCart(AddItemToCartAction $action): void
     {
+        $maxStock = $this->selectedVariant ? $this->selectedVariant->stock : 0;
+
         $this->validate([
-            'quantity' => 'required|integer|min:1',
+            'quantity' => "required|integer|min:1|max:{$maxStock}",
             'selectedVariantId' => $this->product->variants->isNotEmpty() ? 'required|exists:product_variants,id' : 'nullable',
+        ], [
+            'quantity.max' => "You cannot add more than {$maxStock} items because that is all we have in stock."
         ]);
 
-        // Voer de actie uit (Database of Sessie wordt afgehandeld in de Action)
         $action->handle($this->product, $this->quantity, $this->selectedVariantId);
 
         session()->flash('message', 'Product successfully added to your cart!');
@@ -123,8 +123,13 @@ class extends Component {
                 <div class="mb-6 flex items-center gap-4">
                     <div class="w-24">
                         <label class="block text-sm font-semibold text-gray-900 mb-2">Quantity</label>
-                        <input wire:model="quantity" type="number" min="1" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+                        <input 
+                            wire:model="quantity" 
+                            type="number" 
+                            min="1" 
+                            max="{{ $this->selectedVariant ? $this->selectedVariant->stock : 1 }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm"
+                        >
                     </div>
 
                     <div class="flex-1 pt-7">

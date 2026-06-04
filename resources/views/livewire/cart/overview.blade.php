@@ -2,16 +2,28 @@
 
 use App\Actions\Cart\RemoveCartItemAction;
 use App\Actions\Cart\UpdateCartItemAction;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
-use Livewire\Component;
+use App\Models\CartItem;
 use App\Services\CartService;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 new #[Layout('components.layouts.app')]
 class extends Component {
 
     public function updateQuantity(UpdateCartItemAction $action, $itemId, $quantity)
     {
+        $cartItem = CartItem::find($itemId);
+        
+        if ($cartItem && $cartItem->variant) {
+            $maxStock = $cartItem->variant->stock;
+            
+            if ((int)$quantity > $maxStock) {
+                $quantity = $maxStock;
+                $this->addError('stock_' . $itemId, "Only {$maxStock} items are currently available in stock.");
+            }
+        }
+
         $action->handle($itemId, (int)$quantity);
     }
 
@@ -52,6 +64,7 @@ class extends Component {
             @forelse($this->cartItems as $item)
                 @php
                     $itemPrice = $item->product->price + ($item->variant ? $item->variant->additional_price : 0);
+                    $maxStock = $item->variant ? $item->variant->stock : 1;
                 @endphp
                 <div class="bg-white border border-silver-teal rounded-[16px] shadow-forest p-6 flex items-center justify-between">
 
@@ -66,6 +79,10 @@ class extends Component {
                         <p class="text-cool-gray">
                             €{{ number_format($itemPrice / 100, 2, '.', ',') }}
                         </p>
+
+                        @error('stock_' . $item->id)
+                            <span class="text-xs text-red-500 font-medium mt-1 block">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="flex items-center gap-4">
@@ -73,6 +90,7 @@ class extends Component {
                         <input
                             type="number"
                             min="1"
+                            max="{{ $maxStock }}"
                             value="{{ $item->quantity }}"
                             wire:change="updateQuantity('{{ $item->id }}', $event.target.value)" 
                             class="border border-silver-teal rounded px-3 py-2 w-20"
