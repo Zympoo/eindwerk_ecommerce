@@ -59,6 +59,20 @@ class extends Component {
             return;
         }
 
+        foreach ($this->items as $item) {
+            if ($item->variant) {
+                if ($item->variant->stock < $item->quantity) {
+                    $this->addError('cart', sprintf(
+                        'Sorry, there are only %d units left in stock for "%s (%s)". Please reduce your quantity.',
+                        $item->variant->stock,
+                        $item->product->name,
+                        $item->variant->name
+                    ));
+                    return;
+                }
+            }
+        }
+
         $cartArray = $this->items->map(function($item) {
             $finalPrice = $item->product->price + ($item->variant ? $item->variant->additional_price : 0);
             $fullName = $item->product->name . ($item->variant ? ' (' . $item->variant->name . ')' : '');
@@ -100,9 +114,11 @@ class extends Component {
 
                 @if ($errors->any())
                     <div class="bg-red-50 border border-red-200 text-red-600 p-4 rounded mb-4">
-                        <ul class="list-disc ml-5">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                        <ul class="list-disc ml-5 text-sm space-y-1">
+                            @foreach ($errors->getBags()['default']->messages() as $key => $messages)
+                                @foreach ($messages as $error)
+                                        <li>{{ $error }}</li>
+                                @endforeach
                             @endforeach
                         </ul>
                     </div>
@@ -114,10 +130,6 @@ class extends Component {
                 <input wire:model="address.city" type="text" placeholder="City" class="input w-full rounded-lg border border-silver-teal bg-white px-4 py-3 text-sm focus:border-mongo-dark-green focus:ring-2 focus:ring-mongo-dark-green/20">
                 <input wire:model="address.postal_code" type="text" placeholder="Postal Code" class="input w-full rounded-lg border border-silver-teal bg-white px-4 py-3 text-sm focus:border-mongo-dark-green focus:ring-2 focus:ring-mongo-dark-green/20">
                 <input wire:model="address.country" type="text" placeholder="Country" class="input w-full rounded-lg border border-silver-teal bg-white px-4 py-3 text-sm focus:border-mongo-dark-green focus:ring-2 focus:ring-mongo-dark-green/20">
-
-                @error('cart')
-                <p class="text-red-500 text-sm">{{ $message }}</p>
-                @enderror
             </div>
 
             <div class="bg-light-input border border-silver-teal rounded-[16px] p-6">

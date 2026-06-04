@@ -52,7 +52,12 @@ class extends Component {
                                 €{{ number_format($order->total_price / 100, 2, '.', ',') }}
                             </p>
 
-                            <span class="text-sm px-2 py-1 rounded text-capitalize font-medium {{ $order->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                            <span class="text-sm px-2 py-1 rounded text-capitalize font-medium 
+                                {{ match($order->status) {
+                                    'paid' => 'bg-green-100 text-green-800',
+                                    'cancelled' => 'bg-red-100 text-red-800',
+                                    default => 'bg-yellow-100 text-yellow-800',
+                                } }}">
                                 {{ ucfirst($order->status) }}
                             </span>
                         </div>

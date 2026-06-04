@@ -49,6 +49,22 @@ class CheckoutController extends Controller
             abort(403, "Order can't be paid again.");
         }
 
+        foreach ($order->items as $item) {
+            if ($item->variant) {
+                if ($item->variant->stock < $item->quantity) {
+                    $order->update([
+                        'status' => 'cancelled',
+                    ]);
+
+                    return back()->with('error', sprintf(
+                        'Unfortunately, there is insufficient stock for "%s (%s)". The order has been cancelled.', 
+                        $item->product->name, 
+                        $item->variant->name
+                    ));
+                }
+            }
+        }
+
         $lineItems = $order->items->map(function ($item) {
             $productName = $item->product->name ?? 'Product';
             if ($item->variant) {
