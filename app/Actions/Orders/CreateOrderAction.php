@@ -22,7 +22,7 @@ class CreateOrderAction
             'order_number' => 'ORD-' . strtoupper(Str::random(8)),
             'total_price' => $totalPrice,
             'status' => 'pending',
-            'shipping_address' => $address, // Wordt gecast naar JSON via het Model
+            'shipping_address' => $address,
         ]);
 
         foreach ($cartItems as $item) {
@@ -31,18 +31,17 @@ class CreateOrderAction
                 'product_id' => $item['product_id'],
                 'product_variant_id' => $item['product_variant_id'],
                 'quantity' => $item['quantity'],
-                'price' => $item['price'], // De reeds berekende prijs incl. variant meerprijs
+                'price' => $item['price'],
             ]);
         }
 
-        // Maak Stripe Checkout items
         $lineItems = collect($cartItems)->map(fn($item) => [
             'price_data' => [
                 'currency' => 'eur',
                 'product_data' => [
                     'name' => $item['name'],
                 ],
-                'unit_amount' => $item['price'], // Prijzen staan al in centen in je DB
+                'unit_amount' => $item['price'],
             ],
             'quantity' => $item['quantity'],
         ])->values()->toArray();
@@ -59,7 +58,7 @@ class CreateOrderAction
 
         return $session->url;
     }
-
+    
     private function calculateTotal(array $cartItems): int
     {
         return collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']);

@@ -32,7 +32,6 @@ class UpdateCartItemAction
             return;
         }
 
-        // Gasten / Sessie
         $cart = Session::get($this->cartService->getSession(), []);
         if (isset($cart[$itemId])) {
             if ($quantity <= 0) {

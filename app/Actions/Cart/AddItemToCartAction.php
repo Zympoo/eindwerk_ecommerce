@@ -16,7 +16,6 @@ class AddItemToCartAction
 
     public function handle(Product $product, int $quantity, ?int $variantId = null): void
     {
-        // Bepaal de maximale voorraad op basis van de variant (aangezien varianten de stock kolom bevatten)
         $stock = $variantId 
             ? ProductVariant::where('product_id', $product->id)->find($variantId)?->stock ?? 0
             : 999; // Fallback als er geen variant is
@@ -36,7 +35,6 @@ class AddItemToCartAction
             return;
         }
 
-        // Sessie logica (unieke key genereren op basis van product + variant)
         $cart = Session::get($this->cartService->getSession(), []);
         $key = $variantId ? "{$product->id}-{$variantId}" : (string)$product->id;
 
