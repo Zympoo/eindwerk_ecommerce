@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Services\StripeService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class CheckoutController extends Controller
 {
     use AuthorizesRequests;
 
-    public function success(Request $request, StripeService $stripe, CartService $cartService)
+    public function success(Request $request, StripeService $stripe, CartService $cartService, OrderService $orderService,)
     {
         $sessionId = $request->query('session_id');
 
@@ -33,11 +34,7 @@ class CheckoutController extends Controller
         }
 
         if ($order->status !== 'paid') {
-            $order->update([
-                'status' => 'paid',
-                'stripe_payment_intent_id' => $session->payment_intent,
-            ]);
-
+            $orderService->completeOrder($order, $session->payment_intent);
             $cartService->clear();
         }
 
@@ -49,7 +46,7 @@ class CheckoutController extends Controller
         $this->authorize('view', $order);
 
         if ($order->status !== 'pending') {
-            abort(403, 'Order kan niet opnieuw betaald worden.');
+            abort(403, "Order can't be paid again.");
         }
 
         $lineItems = $order->items->map(function ($item) {

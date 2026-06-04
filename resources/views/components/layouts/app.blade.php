@@ -22,9 +22,9 @@
 
                     <a href="/products" class="text-white hover:text-green-400 transition-colors">Products</a>
                     <a href="/cart" class="text-white hover:text-green-400 transition-colors">Cart</a>
-                    <a href="/orders" class="text-white hover:text-green-400 transition-colors">My orders</a>
 
                     @auth
+                        <a href="/orders" class="text-white hover:text-green-400 transition-colors">My orders</a>
                         @if(auth()->user()->isAdmin())
                             <a href="/admin" class="text-white hover:text-green-400 transition-colors">
                                 Dashboard
