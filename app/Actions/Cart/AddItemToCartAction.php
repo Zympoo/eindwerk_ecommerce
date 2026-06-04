@@ -18,7 +18,7 @@ class AddItemToCartAction
     {
         $stock = $variantId 
             ? ProductVariant::where('product_id', $product->id)->find($variantId)?->stock ?? 0
-            : 999; // Fallback als er geen variant is
+            : 999;
 
         $quantity = max(1, min($quantity, $stock));
 
