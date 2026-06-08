@@ -16,7 +16,7 @@ class StripeService
     {
         return Session::create([
             'mode' => 'payment',
-            'payment_method_types' => ['card', 'ideal'], // iDEAL toegevoegd voor NL/BE markt
+            'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'success_url' => $successUrl.'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => $cancelUrl,
