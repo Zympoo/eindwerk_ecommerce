@@ -21,7 +21,10 @@
                 <nav class="hidden md:flex gap-8 font-medium text-[16px] items-center">
 
                     <a href="/products" class="text-white hover:text-green-400 transition-colors">Products</a>
-                    <a href="/cart" class="text-white hover:text-green-400 transition-colors">Cart</a>
+                    <a href="/cart" class="relative inline-flex items-center pr-4 text-white hover:text-green-400 transition-colors">
+                        <span>Cart</span>
+                        <livewire:cart-badge />
+                    </a>
 
                     @auth
                         <a href="/orders" class="text-white hover:text-green-400 transition-colors">My orders</a>

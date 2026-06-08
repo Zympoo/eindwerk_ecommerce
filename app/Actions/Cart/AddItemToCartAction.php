@@ -7,6 +7,7 @@ use App\Models\ProductVariant;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Livewire\Livewire;
 
 class AddItemToCartAction
 {
@@ -32,6 +33,8 @@ class AddItemToCartAction
 
             $item->quantity = min(($item->quantity ?? 0) + $quantity, $stock);
             $item->save();
+
+            Livewire::current()->dispatch('cart_updated');
             return;
         }
 
@@ -48,5 +51,7 @@ class AddItemToCartAction
 
         $cart[$key]['quantity'] = min($cart[$key]['quantity'] + $quantity, $stock);
         Session::put($this->cartService->getSession(), $cart);
+
+        Livewire::current()->dispatch('cart_updated');
     }
 }
