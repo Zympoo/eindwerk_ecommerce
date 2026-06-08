@@ -119,23 +119,29 @@ class extends Component {
                     Total: <span class="font-bold">€{{ number_format($this->total / 100, 2, '.', ',') }}</span>
                 </p>
 
-                <div class="mt-4">
-                    @if($this->cartItems->isNotEmpty())
-                        <a
-                            href="/checkout"
-                            wire:navigate
-                            class="inline-block text-center bg-mongo-dark-green hover:bg-opacity-90 text-white font-bold text-sm px-8 py-3 rounded-full shadow-md transition-all duration-200"
-                        >
-                            Proceed to Checkout
-                        </a>
-                    @else
-                        <button
-                            disabled
-                            class="inline-block text-center bg-gray-300 text-gray-500 font-bold text-sm px-8 py-3 rounded-full cursor-not-allowed"
-                        >
-                            Proceed to Checkout
-                        </button>
-                    @endif
+                <div class="flex justify-center gap-4">
+                    <a href="/products" wire:navigate
+                       class="mt-4 inline-block text-center bg-mongo-dark-green hover:bg-opacity-90 text-white font-bold text-sm px-8 py-3 rounded-full shadow-md transition-all duration-200">
+                        Continue Shopping
+                    </a>
+                    <div class="mt-4">
+                        @if($this->cartItems->isNotEmpty())
+                            <a
+                                href="/checkout"
+                                wire:navigate
+                                class="inline-block text-center bg-mongo-dark-green hover:bg-opacity-90 text-white font-bold text-sm px-8 py-3 rounded-full shadow-md transition-all duration-200"
+                            >
+                                Proceed to Checkout
+                            </a>
+                        @else
+                            <button
+                                disabled
+                                class="inline-block text-center bg-gray-300 text-gray-500 font-bold text-sm px-8 py-3 rounded-full cursor-not-allowed"
+                            >
+                                Proceed to Checkout
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
