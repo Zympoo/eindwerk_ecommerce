@@ -19,30 +19,34 @@ class ProductForm
         return $schema
             ->components([
                 
-                // SECTION 1: Base Product Data
                 Section::make('Product Information')
                     ->schema([
                         Select::make('category_id')
                             ->relationship('category', 'name')
+                            ->preload()
+                            ->searchable()
                             ->required(),
                             
                         TextInput::make('name')
                             ->required()
+                            ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn ($state, string $operation, $set) => 
-                                $operation === 'create' || 'edit' ? $set('slug', Str::slug($state)) : null
+                                $operation === 'create' || $operation === 'edit' ? $set('slug', Str::slug($state)) : null
                             ),
                             
                         TextInput::make('slug')
-                            ->id('slug')
                             ->required()
-                            ->unique(ignoreRecord: true),
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->alphaDash(),
                             
                         TextInput::make('price')
                             ->required()
                             ->numeric()
                             ->inputMode('decimal')
                             ->prefix('€')
+                            ->minValue(0)
                             ->formatStateUsing(fn ($state) => $state !== null ? number_format($state / 100, 2, '.', '') : '0.00')
                             ->dehydrateStateUsing(fn ($state) => $state !== null ? (int) round(floatval(str_replace(',', '.', $state)) * 100) : null),
                             
@@ -51,33 +55,39 @@ class ProductForm
                             ->default(true),
                             
                         FileUpload::make('image_path')
-                            ->image()
+                            ->label('Image')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->extraInputAttributes(['accept' => '.jpg,.jpeg,.png,.webp'])
+                            ->maxSize(2048)
                             ->directory('products')
                             ->disk('public')
                             ->columnSpanFull(),
                             
                         Textarea::make('description')
                             ->required()
+                            ->maxLength(510)
+                            ->rows(5)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
-                // SECTION 2: Product Variants (Repeater)
                 Section::make('Product Variants')
                     ->description('Manage different sizes, colors, or editions for this product.')
                     ->schema([
                         Repeater::make('variants')
-                            ->relationship('variants') // Refers to the variants() relation in your Product model
+                            ->relationship('variants')
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Variant Name')
                                     ->placeholder('e.g., Size M / Blue')
+                                    ->maxLength(255)
                                     ->required(),
                                     
                                 TextInput::make('additional_price')
                                     ->label('Additional Price')
                                     ->numeric()
                                     ->prefix('€')
+                                    ->minValue(0)
                                     ->default(0)
                                     ->formatStateUsing(fn ($state) => $state !== null ? number_format($state / 100, 2, '.', '') : '0.00')
                                     ->dehydrateStateUsing(fn ($state) => $state !== null ? (int) round(floatval(str_replace(',', '.', $state)) * 100) : 0),
@@ -85,6 +95,8 @@ class ProductForm
                                 TextInput::make('stock')
                                     ->label('Stock')
                                     ->numeric()
+                                    ->integer()
+                                    ->minValue(0)
                                     ->default(0)
                                     ->required(),
                                     

@@ -12,7 +12,8 @@ class RoleForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 }

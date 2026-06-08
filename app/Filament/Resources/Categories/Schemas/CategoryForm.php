@@ -16,14 +16,17 @@ class CategoryForm
             ->components([
                 TextInput::make('name')
                     ->required()
+                    ->maxLength(255)
                     ->live(onBlur: true)
                         ->afterStateUpdated(fn ($state, string $operation, $set) => 
                             $operation === 'create' || 'edit' ? $set('slug', Str::slug($state)) : null
                         ),
                 TextInput::make('slug')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
                 Textarea::make('description')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->maxLength(510),
                 Toggle::make('is_active'),
             ]);
     }

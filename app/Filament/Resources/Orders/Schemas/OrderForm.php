@@ -78,16 +78,20 @@ class OrderForm
                 Section::make('Shipping Address')
                     ->schema([
                         TextInput::make('shipping_address.street')
-                            ->label('Street + House Number'),
+                            ->label('Street + House Number')
+                            ->maxLength(255),
                         
                         TextInput::make('shipping_address.city')
-                            ->label('City'),
+                            ->label('City')
+                            ->maxLength(255),
                         
                         TextInput::make('shipping_address.postal_code')
-                            ->label('Postal Code'),
+                            ->label('Postal Code')
+                            ->maxLength(255),
                         
                         TextInput::make('shipping_address.country')
-                            ->label('Country'),
+                            ->label('Country')
+                            ->maxLength(255),
                     ])
                     ->columns(2),
 
