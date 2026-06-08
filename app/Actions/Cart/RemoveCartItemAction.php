@@ -6,6 +6,7 @@ use App\Models\CartItem;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Livewire\Livewire;
 
 class RemoveCartItemAction
 {
@@ -17,6 +18,8 @@ class RemoveCartItemAction
     {
         if (Auth::check()) {
             CartItem::where('id', $itemId)->delete();
+
+            Livewire::current()->dispatch('cart_updated');
             return;
         }
 
@@ -25,5 +28,6 @@ class RemoveCartItemAction
             unset($cart[$itemId]);
         }
         Session::put($this->cartService->getSession(), $cart);
+        Livewire::current()->dispatch('cart_updated');
     }
 }

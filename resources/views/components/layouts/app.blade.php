@@ -21,9 +21,11 @@
                 <nav class="hidden md:flex gap-8 font-medium text-[16px] items-center">
 
                     <a href="/products" class="text-white hover:text-green-400 transition-colors">Products</a>
-                    <a href="/cart" class="relative inline-flex items-center pr-4 text-white hover:text-green-400 transition-colors">
+                    <a href="/cart" class="relative inline-flex items-center pr-4 text-white hover:text-green-400 transition-colors"
+                       x-data="{ open: false }" @mouseenter="open=true" @mouseleave="open=false">
                         <span>Cart</span>
-                        <livewire:cart-badge />
+                        <livewire:cart.cart-badge />
+                        <livewire:cart.cart-dropdown />
                     </a>
 
                     @auth
