@@ -24,8 +24,8 @@
                     <a href="/cart" class="relative inline-flex items-center pr-4 text-white hover:text-green-400 transition-colors"
                        x-data="{ open: false }" @mouseenter="open=true" @mouseleave="open=false">
                         <span>Cart</span>
-                        <livewire:cart.cart-badge />
-                        <livewire:cart.cart-dropdown />
+                        <livewire:cart.badge />
+                        <livewire:cart.dropdown />
                     </a>
 
                     @auth
