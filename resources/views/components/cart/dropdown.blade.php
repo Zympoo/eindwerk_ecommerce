@@ -53,18 +53,16 @@ new class extends Component
 };
 ?>
 
-<div class="absolute right-0 top-full mt-2">
+<div class="absolute right-0 top-full mt-2 z-50" x-show="open" x-cloak>
     @if($count > 0)
         <div 
-            x-show="open"
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 translate-y-1"
             x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 translate-y-1"
-            class="w-72 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 p-3 text-sm text-white pointer-events-auto"
-            x-cloak
+            class="w-72 bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-3 text-sm text-white pointer-events-auto"
         >
             <ul class="divide-y divide-gray-700 max-h-60 overflow-y-auto pr-1">
                 @foreach($items as $item)

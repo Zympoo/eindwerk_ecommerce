@@ -79,7 +79,7 @@ class extends Component {
                         @foreach($categories as $category)
                             <li>
                                 <button wire:click="selectCategory({{ $category->id }})" 
-                                    class="w-full text-left text-sm py-1.5 px-2 rounded transition-colors {{ $selectedCategory === $category->id ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-600 hover:bg-gray-50' }}">
+                                    class="w-full text-left text-sm py-1.5 px-2 rounded transition-colors {{ $selectedCategory === $category->id ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:cursor-pointer' }}">
                                     {{ $category->name }}
                                 </button>
                             </li>
@@ -97,11 +97,13 @@ class extends Component {
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($products as $product)
-                        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between group hover:shadow-md transition-shadow">
+                        <a href="/products/{{ $product->slug }}" wire:navigate 
+                        class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer">
+                            
                             <div>
                                 <div class="aspect-square bg-gray-100 overflow-hidden relative">
                                     @if($product->image_path)
-                                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-gray-400">
                                             No image available
@@ -127,16 +129,15 @@ class extends Component {
                                     €{{ number_format($product->price / 100, 2, '.', ',') }}
                                 </span>
                                 
-                                <a href="/products/{{ $product->slug }}" wire:navigate 
-                                    class="text-xs bg-gray-900 text-white font-medium px-3 py-2 rounded hover:bg-green-600 transition-colors">
+                                <span class="text-xs bg-gray-900 text-white font-medium px-3 py-2 rounded group-hover:bg-green-600 transition-colors">
                                     View Details
-                                </a>
+                                </span>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
 
-                <div class="mt-8">
+                <div class="mt-8 [&_button]:cursor-pointer">
                     {{ $products->links() }}
                 </div>
             @endif
