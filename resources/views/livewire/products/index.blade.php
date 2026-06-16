@@ -36,7 +36,10 @@ class extends Component {
     {
         $query = Product::query()
             ->where('is_active', true)
-            ->with(['category']);
+            ->with(['category'])
+            ->whereHas('variants', function ($query) {
+                $query->where('is_active', true);
+            });
 
         if (!empty($this->search)) {
             $query->where('name', 'like', '%' . $this->search . '%');
