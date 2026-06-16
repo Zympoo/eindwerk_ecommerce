@@ -31,6 +31,22 @@ class extends Component {
     }
 
     #[Computed]
+    public function comparableProducts()
+    {
+        return Product::query()
+            ->where('category_id', $this->product->category_id)
+            ->where('id', '!=', $this->product->id)
+            ->where('is_active', true)
+            ->whereHas('variants', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->with(['category'])
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+    }
+
+    #[Computed]
     public function selectedVariant(): ?ProductVariant
     {
         return $this->product->variants->firstWhere('id', $this->selectedVariantId);
@@ -108,7 +124,7 @@ class extends Component {
                     <div class="mb-6">
                         <label class="block text-sm font-semibold text-gray-900 mb-2">Choose an option</label>
                         <select wire:model.live="selectedVariantId" 
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+                            class="px-3 py-2 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
                             @foreach($product->variants as $variant)
                                 <option value="{{ $variant->id }}">
                                     {{ $variant->name }} 
@@ -128,7 +144,7 @@ class extends Component {
                             type="number" 
                             min="1" 
                             max="{{ $this->selectedVariant ? $this->selectedVariant->stock : 1 }}"
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm"
+                            class="px-3 py-2 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm"
                         >
                     </div>
 
@@ -145,4 +161,31 @@ class extends Component {
             </form>
         </div>
     </div>
+
+    @if($this->comparableProducts->isNotEmpty())
+        <div class="mt-16 border-t border-gray-200 pt-10">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Comparable Products</h2>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                @foreach($this->comparableProducts as $compProduct)
+                    <a href="/products/{{ $compProduct->slug }}" wire:navigate class="group block text-sm">
+                        <div class="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 group-hover:opacity-75 transition-opacity">
+                            @if($compProduct->image_path)
+                                <img src="{{ asset('storage/' . $compProduct->image_path) }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">No image</div>
+                            @endif
+                        </div>
+                        <h3 class="mt-3 font-semibold text-gray-900 group-hover:text-green-600 transition-colors line-clamp-1">
+                            {{ $compProduct->name }}
+                        </h3>
+                        <p class="text-gray-500 text-xs mb-1">{{ $compProduct->category->name }}</p>
+                        <p class="text-gray-900 font-bold">
+                            €{{ number_format($compProduct->price / 100, 2, '.', ',') }}
+                        </p>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>
