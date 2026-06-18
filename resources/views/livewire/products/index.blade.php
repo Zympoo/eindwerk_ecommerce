@@ -131,11 +131,12 @@ class extends Component {
                             </div>
 
                             <div class="p-4 pt-0 flex items-center justify-between mt-4">
-                                Starting at
-                                <span class="text-lg font-bold text-gray-900">
-                                    €{{ number_format(($product->price + ($product->variants_min_additional_price ?? 0)) / 100, 2, '.', ',') }}
-                                </span>
-
+                                <div>
+                                    Starting at
+                                    <span class="text-lg font-bold text-gray-900">
+                                        €{{ number_format(($product->price + ($product->variants_min_additional_price ?? 0)) / 100, 2, '.', ',') }}
+                                    </span>
+                                </div>
                                 <span class="text-xs bg-gray-900 text-white font-medium px-3 py-2 rounded group-hover:bg-green-600 transition-colors">
                                     View Details
                                 </span>
