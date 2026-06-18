@@ -19,8 +19,7 @@ class ProductFactory extends Factory
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'description' => $this->faker->paragraph(),
-            'price' => $this->faker->numberBetween(100, 10000), // In centen
-            'image_path' => 'private/products/' . $this->faker->image(null, 640, 480, null, false),
+            'price' => $this->faker->numberBetween(100, 10000),
             'is_active' => true,
         ];
     }

@@ -15,8 +15,8 @@ class CategorySeeder extends Seeder
             ->count(5)
             ->has(
                 Product::factory()
-                    ->count(4)
-                    ->has(ProductVariant::factory()->count(2), 'variants'),
+                    ->count(10)
+                    ->has(ProductVariant::factory()->count(5), 'variants'),
                 'products'
             )
             ->create();

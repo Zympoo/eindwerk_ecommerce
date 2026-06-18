@@ -22,7 +22,7 @@ class extends Component {
         }
 
         $this->product = $product->load(['variants' => function($query) {
-            $query->where('is_active', true);
+            $query->where('is_active', true)->orderBy('additional_price', 'asc');
         }]);
 
         if ($this->product->variants->isNotEmpty()) {
