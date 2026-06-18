@@ -37,11 +37,11 @@
                         @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="text-white hover:text-green-400 hover:cursor-pointer transition-colors">Uitloggen</button>
+                                <button type="submit" class="text-white hover:text-green-400 hover:cursor-pointer transition-colors">Logout</button>
                             </form>
                     @else
-                        <a href="/login" class="text-white hover:text-green-400 transition-colors">Inloggen</a>
-                        <a href="/register" class="text-white hover:text-green-400 transition-colors">Registreren</a>
+                        <a href="/login" class="text-white hover:text-green-400 transition-colors">Login</a>
+                        <a href="/register" class="text-white hover:text-green-400 transition-colors">Register</a>
                     @endauth
 
                 </nav>
