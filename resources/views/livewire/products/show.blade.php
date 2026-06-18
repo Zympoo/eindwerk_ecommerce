@@ -150,7 +150,7 @@ class extends Component {
                         >
                     </div>
 
-                    <div class="max-w-md">
+                    <div class="w-48">
                         @if($this->selectedVariant && $this->selectedVariant->stock <= 0)
                             <button type="button" disabled class="w-full bg-gray-300 text-gray-500 py-2 rounded-md cursor-not-allowed text-sm font-semibold">
                                 Out of Stock
