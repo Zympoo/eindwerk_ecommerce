@@ -40,6 +40,9 @@ class extends Component {
             ->whereHas('variants', function ($query) {
                 $query->where('is_active', true);
             })
+            ->withMin(['variants' => function ($query) {
+                $query->where('is_active', true);
+            }], 'additional_price')
             ->with(['category'])
             ->inRandomOrder()
             ->take(5)
@@ -183,8 +186,11 @@ class extends Component {
                         <h3 class="mt-1.5 font-semibold text-gray-900 group-hover:text-green-600 transition-colors line-clamp-1">
                             {{ $compProduct->name }}
                         </h3>
-                        <p class="text-gray-900 font-bold mt-0.5">
-                            €{{ number_format($compProduct->price / 100, 2, '.', ',') }}
+                        <p class="text-gray-900 mt-0.5">
+                            Starting at
+                            <span class="text-md font-bold text-gray-900">
+                                €{{ number_format(($compProduct->price + ($compProduct->variants_min_additional_price ?? 0)) / 100, 2, '.', ',') }}
+                            </span>
                         </p>
                     </a>
                 @endforeach
