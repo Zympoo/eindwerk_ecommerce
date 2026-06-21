@@ -16,6 +16,22 @@ class extends Component {
 
         $this->order = $order->load(['items.product', 'items.variant']);
     }
+
+    public function cancelOrder()
+    {
+        $this->authorize('update', $this->order);
+
+        if ($this->order->status !== 'pending') {
+            session()->flash('error', 'Only pending orders can be cancelled.');
+            return;
+        }
+
+        $this->order->update([
+            'status' => 'cancelled'
+        ]);
+
+        session()->flash('message', 'Your order has been successfully cancelled.');
+    }
 };
 ?>
 
@@ -42,6 +58,19 @@ class extends Component {
             </div>
         @endif
 
+        @if (session()->has('message'))
+            <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-[12px] flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <p class="text-sm font-medium">
+                        {{ session('message') }}
+                    </p>
+                </div>
+            </div>
+        @endif
+
         <div class="mb-12">
             <span class="tech-label text-mongo-dark-green mb-2 block">
                 Order Details
@@ -53,7 +82,7 @@ class extends Component {
         </div>
 
         @if($order->status === 'pending')
-            <div class="bg-light-input border border-silver-teal rounded-[16px] p-6 mb-8 flex items-center justify-between">
+            <div class="bg-light-input border border-silver-teal rounded-[16px] p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
                 <div>
                     <p class="font-medium text-[18px]">
@@ -61,18 +90,29 @@ class extends Component {
                     </p>
 
                     <p class="text-cool-gray text-sm mt-1">
-                        Complete your payment to confirm your order.
+                        Complete your payment to confirm your order or cancel it.
                     </p>
                 </div>
 
-                <form method="POST" action="{{ route('orders.pay', $order) }}">
-                    @csrf
-                    <button
-                        class="bg-action-blue text-white px-6 py-3 rounded hover:opacity-90 transition-colors font-medium hover:cursor-pointer"
+                <div class="flex items-center gap-3">
+                    {{-- De nieuwe Annuleer-knop --}}
+                    <button 
+                        wire:click="cancelOrder"
+                        wire:confirm="Are you sure you want to cancel this order?"
+                        class="text-red-600 hover:text-red-700 font-medium px-4 py-3 rounded transition-colors hover:cursor-pointer"
                     >
-                        Pay Now
+                        Cancel Order
                     </button>
-                </form>
+
+                    <form method="POST" action="{{ route('orders.pay', $order) }}">
+                        @csrf
+                        <button
+                            class="bg-action-blue text-white px-6 py-3 rounded hover:opacity-90 transition-colors font-medium hover:cursor-pointer shadow-sm"
+                        >
+                            Pay Now
+                        </button>
+                    </form>
+                </div>
 
             </div>
         @endif

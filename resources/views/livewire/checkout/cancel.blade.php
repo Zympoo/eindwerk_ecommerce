@@ -18,12 +18,12 @@
             <div class="flex justify-center gap-4">
 
                 <a href="/cart"
-                   class="bg-mongo-dark-green text-white px-6 py-3 rounded">
+                   class="bg-mongo-dark-green text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition shadow-lg">
                     Return to cart
                 </a>
 
                 <a href="/products"
-                   class="border border-silver-teal px-6 py-3 rounded">
+                   class="border border-silver-teal text-mongo-dark-green px-8 py-3 rounded-full font-bold hover:border-action-blue hover:text-action-blue transition">
                     Continue shopping
                 </a>
 

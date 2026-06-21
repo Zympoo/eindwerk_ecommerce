@@ -26,10 +26,12 @@
                     Continue Shopping
                 </a>
 
-                <a href="/orders" wire:navigate
-                   class="border border-silver-teal text-mongo-dark-green px-8 py-3 rounded-full font-bold hover:border-action-blue hover:text-action-blue transition">
-                    My Orders
-                </a>
+                @auth
+                    <a href="/orders" wire:navigate
+                       class="border border-silver-teal text-mongo-dark-green px-8 py-3 rounded-full font-bold hover:border-action-blue hover:text-action-blue transition">
+                        My Orders
+                    </a>
+                @endauth
             </div>
 
         </div>
