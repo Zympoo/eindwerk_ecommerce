@@ -87,8 +87,7 @@ class AdminPanelProvider extends PanelProvider
                         
                     NavigationGroup::make('Management')
                         ->items([
-                            ...UserResource::getNavigationItems(),                
-                            ...RoleResource::getNavigationItems(),         
+                            ...UserResource::getNavigationItems(),       
                         ]),
                 ]);
             });
