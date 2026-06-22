@@ -18,12 +18,10 @@ class UpdateCartItemAction
     public function handle($itemId, int $quantity): void
     {
         if (Auth::check()) {
-            $item = CartItem::find($itemId);
+            $item = CartItem::with('variant')->find($itemId);
             if (!$item) return;
 
-            $stock = $item->product_variant_id 
-                ? ProductVariant::find($item->product_variant_id)?->stock ?? 0 
-                : 999;
+            $stock = $item->variant?->stock ?? 0;
 
             if ($quantity <= 0) {
                 $item->delete();
@@ -40,9 +38,7 @@ class UpdateCartItemAction
             if ($quantity <= 0) {
                 unset($cart[$itemId]);
             } else {
-                $stock = isset($cart[$itemId]['product_variant_id']) 
-                    ? ProductVariant::find($cart[$itemId]['product_variant_id'])?->stock ?? 0 
-                    : 999;
+                $stock = ProductVariant::find($cart[$itemId]['product_variant_id'])?->stock ?? 0;
 
                 $cart[$itemId]['quantity'] = max(1, min($quantity, $stock));
             }
