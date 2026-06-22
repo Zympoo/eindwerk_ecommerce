@@ -15,11 +15,9 @@ class AddItemToCartAction
         private CartService $cartService
     ) {}
 
-    public function handle(Product $product, int $quantity, ?int $variantId = null): void
+    public function handle(Product $product, int $quantity, int $variantId): void
     {
-        $stock = $variantId 
-            ? ProductVariant::where('product_id', $product->id)->find($variantId)?->stock ?? 0
-            : 999;
+        $stock = ProductVariant::where('product_id', $product->id)->find($variantId)?->stock ?? 0;
 
         $quantity = max(1, min($quantity, $stock));
 

@@ -5,6 +5,7 @@ namespace App\Livewire\Products;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Actions\Cart\AddItemToCartAction;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -14,6 +15,8 @@ class extends Component {
     public Product $product;
     public ?int $selectedVariantId = null;
     public int $quantity = 1;
+    
+    public Collection $comparableProducts;
 
     public function mount(Product $product): void
     {
@@ -25,15 +28,15 @@ class extends Component {
             $query->where('is_active', true)->orderBy('additional_price', 'asc');
         }]);
 
+        if ($this->product->variants->isEmpty()) {
+            abort(404);
+        }
+
         if ($this->product->variants->isNotEmpty()) {
             $this->selectedVariantId = $this->product->variants->first()->id;
         }
-    }
 
-    #[Computed]
-    public function comparableProducts()
-    {
-        return Product::query()
+        $this->comparableProducts = Product::query()
             ->where('category_id', $this->product->category_id)
             ->where('id', '!=', $this->product->id)
             ->where('is_active', true)
