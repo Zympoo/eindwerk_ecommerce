@@ -49,14 +49,14 @@ class extends Component {
             <form wire:submit="login" class="space-y-6">
                 
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email adres</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                     <input wire:model="email" id="email" type="email" required 
                         class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                     @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input wire:model="password" id="password" type="password" required 
                         class="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                     @error('password') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
