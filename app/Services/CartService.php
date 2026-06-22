@@ -30,7 +30,7 @@ class CartService
                 ->get()
                 ->map(function ($item) {
                     return (object) [
-                        'id' => $item->id, // Belangrijk voor database updates/deletes
+                        'id' => $item->id,
                         'product_id' => $item->product_id,
                         'product_variant_id' => $item->product_variant_id,
                         'quantity' => $item->quantity,
@@ -48,7 +48,6 @@ class CartService
                 });
         }
 
-        // Sessie logica voor gasten
         return collect(Session::get($this->sessionKey, []))
             ->map(function ($item, $key) {
                 $product = Product::find($item['product_id']);
@@ -57,7 +56,7 @@ class CartService
                 if (!$product) return null;
 
                 return (object) [
-                    'id' => $key, // De unieke array-key dient als ID in de sessie
+                    'id' => $key,
                     'product_id' => $item['product_id'],
                     'product_variant_id' => $item['product_variant_id'] ?? null,
                     'quantity' => $item['quantity'],
