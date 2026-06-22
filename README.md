@@ -29,12 +29,16 @@ Dit project is een e-commerce webshop gebouwd met Laravel, Livewire en Filament.
    ```bash
    php artisan migrate --seed
    ```
-6. Installeer frontend-afhankelijkheden en bouw de assets:
+6. Maak een koppeling voor de opslag (noodzakelijk voor productafbeeldingen):
+   ```bash
+   php artisan storage:link
+   ```
+7. Installeer frontend-afhankelijkheden en bouw de assets:
    ```bash
    npm install
    npm run build
    ```
-7. Start de ontwikkelserver:
+8. Start de ontwikkelserver:
    ```bash
    composer run dev
    ```
