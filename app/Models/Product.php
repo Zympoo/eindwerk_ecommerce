@@ -27,8 +27,8 @@ class Product extends Model
     public static function booted(): void
     {
         static::forceDeleting(function(self $product) {
-            if ($product->image_path && Storage::exists($product->image_path)) {
-                Storage::delete($product->image_path);
+            if ($product->image_path && Storage::disk('public')->exists($product->image_path)) {
+                Storage::disk('public')->delete($product->image_path);
             }
         });
     }
