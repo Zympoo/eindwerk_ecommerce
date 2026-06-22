@@ -95,7 +95,6 @@ class extends Component {
                 </div>
 
                 <div class="flex items-center gap-3">
-                    {{-- De nieuwe Annuleer-knop --}}
                     <button 
                         wire:click="cancelOrder"
                         wire:confirm="Are you sure you want to cancel this order?"
