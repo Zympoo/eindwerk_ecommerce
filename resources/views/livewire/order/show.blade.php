@@ -19,7 +19,7 @@ class extends Component {
 
     public function cancelOrder()
     {
-        $this->authorize('update', $this->order);
+        $this->authorize('view', $this->order);
 
         if ($this->order->status !== 'pending') {
             session()->flash('error', 'Only pending orders can be cancelled.');
