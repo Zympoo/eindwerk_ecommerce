@@ -36,6 +36,9 @@ class extends Component {
     {
         $query = Product::query()
             ->where('is_active', true)
+            ->whereHas('category', function ($query) {
+                $query->where('is_active', true);
+            })
             ->with(['category'])
             ->whereHas('variants', function ($query) {
                 $query->where('is_active', true);
